@@ -52,7 +52,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: '**/001.SignIn.CP.csproj'
-    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/001.SignIn.CP.csproj'
+    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/001.SignIn.CP'
     zipAfterPublish: false
     modifyOutputPath: false
 
@@ -84,3 +84,4 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
+
