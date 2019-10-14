@@ -21,7 +21,7 @@ steps:
 
 
 # restore Nuget packages/dependencies
-- task: DotNetCoreCLI@1
+- task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
     command: restore
@@ -35,7 +35,7 @@ steps:
     projects: '**/002.SignIn.RS.csproj'
 
 # restore Nuget packages/dependencies
-- task: DotNetCoreCLI@3
+- task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
     command: restore
@@ -46,7 +46,7 @@ steps:
 
 # publish the UI test project to the SeleliumTest subfolder in the Artifact Staging Directory
 # optionally, you can add more steps to publish your own website alongside your SeleniumTests in another task
-- task: DotNetCoreCLI@1
+- task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
     command: publish
@@ -67,7 +67,7 @@ steps:
     modifyOutputPath: false
 
 
-- task: DotNetCoreCLI@3
+- task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
     command: publish
