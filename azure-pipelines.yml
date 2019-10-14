@@ -63,7 +63,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: '**/002.SignIn.RS.csproj'
-    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/**/002.SignIn.RS'
+    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/002.SignIn.RS'
     zipAfterPublish: false
     modifyOutputPath: false
 
@@ -74,7 +74,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: '**/003.SignIn.CU.csproj'
-    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/**/003.SignIn.CU'
+    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/003.SignIn.CU'
     zipAfterPublish: false
     modifyOutputPath: false
 
