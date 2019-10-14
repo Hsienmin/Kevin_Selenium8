@@ -1,0 +1,87 @@
+# any commit to the master branch will trigger the CI build
+trigger:
+- master
+
+# use a Windows agent with VS to build the .NET Core MSTest project
+# you can replace this with Ubuntu too without changing the tasks
+pool:
+  name: Hosted Windows 2019 with VS2019
+
+variables:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+steps:
+# install the required .NET Core SDK version
+# only necessary if the agent doesn't already have the required SDK
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.2.301'
+  inputs:
+    version: 2.2.301
+
+
+
+# restore Nuget packages/dependencies
+- task: DotNetCoreCLI@1
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '**/001.SignIn.CP.csproj'
+
+# restore Nuget packages/dependencies
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+
+    projects: '**/002.SignIn.RS.csproj'
+
+# restore Nuget packages/dependencies
+- task: DotNetCoreCLI@3
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '**/003.SignIn.CU.csproj'
+
+
+
+
+# publish the UI test project to the SeleliumTest subfolder in the Artifact Staging Directory
+# optionally, you can add more steps to publish your own website alongside your SeleniumTests in another task
+- task: DotNetCoreCLI@1
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/001.SignIn.CP.csproj'
+    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/001.SignIn.CP.csproj'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/002.SignIn.RS.csproj'
+    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/**/002.SignIn.RS'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+
+ - task: DotNetCoreCLI@3
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/003.SignIn.CU.csproj'
+    arguments: '--configuration Release -o $(build.artifactstagingdirectory)/**/003.SignIn.CU'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+# publish all artifacts in the Artifact Stagign Directory
+# this will place the UI Test artifacts in Azure DevOps for future use in the deployment pipeline
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
