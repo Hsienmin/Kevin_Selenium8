@@ -32,7 +32,6 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-
     projects: '**/002.SignIn.RS.csproj'
 
 # restore Nuget packages/dependencies
