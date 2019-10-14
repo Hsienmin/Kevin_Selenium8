@@ -68,7 +68,7 @@ steps:
     modifyOutputPath: false
 
 
- - task: DotNetCoreCLI@3
+- task: DotNetCoreCLI@3
   displayName: Publish
   inputs:
     command: publish
